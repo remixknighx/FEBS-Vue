@@ -24,8 +24,8 @@ public class Menu implements Serializable {
 
     public static final String TYPE_BUTTON = "1";
 
-    @TableId(value = "MENU_ID", type = IdType.AUTO)
-    private Long menuId;
+    @TableId(value = "ID", type = IdType.AUTO)
+    private Long id;
 
     private Long parentId;
 
@@ -53,13 +53,17 @@ public class Menu implements Serializable {
     @ExcelField(value = "类型", writeConverterExp = "0=按钮,1=菜单")
     private String type;
 
-    private Double orderNum;
+    private Integer orderNum;
 
     @ExcelField(value = "创建时间", writeConverter = TimeConverter.class)
     private Date createTime;
 
     @ExcelField(value = "修改时间", writeConverter = TimeConverter.class)
     private Date modifyTime;
+
+    private String createUser;
+
+    private String modifyUser;
 
     private transient String createTimeFrom;
     private transient String createTimeTo;

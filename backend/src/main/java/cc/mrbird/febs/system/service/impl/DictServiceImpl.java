@@ -51,13 +51,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     @Override
-    @Transactional
     public void createDict(Dict dict) {
         this.save(dict);
     }
 
     @Override
-    @Transactional
     public void updateDict(Dict dict) {
         this.baseMapper.updateById(dict);
     }

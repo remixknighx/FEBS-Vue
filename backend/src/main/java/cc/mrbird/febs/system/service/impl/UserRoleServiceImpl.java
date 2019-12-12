@@ -18,13 +18,11 @@ import java.util.stream.Collectors;
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
 	@Override
-	@Transactional
 	public void deleteUserRolesByRoleId(String[] roleIds) {
 		Arrays.stream(roleIds).forEach(id -> baseMapper.deleteByRoleId(Long.valueOf(id)));
 	}
 
 	@Override
-	@Transactional
 	public void deleteUserRolesByUserId(String[] userIds) {
 		Arrays.stream(userIds).forEach(id -> baseMapper.deleteByUserId(Long.valueOf(id)));
 	}

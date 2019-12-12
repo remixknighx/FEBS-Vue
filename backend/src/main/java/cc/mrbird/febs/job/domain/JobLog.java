@@ -24,8 +24,8 @@ public class JobLog implements Serializable {
     // 任务执行失败
     public static final String JOB_FAIL = "1";
 
-    @TableId(value = "LOG_ID", type = IdType.AUTO)
-    private Long logId;
+    @TableId(value = "ID", type = IdType.AUTO)
+    private Long id;
 
     private Long jobId;
 

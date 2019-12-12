@@ -20,8 +20,8 @@ public class Dept implements Serializable {
 
     private static final long serialVersionUID = -7790334862410409053L;
 
-    @TableId(value = "DEPT_ID", type = IdType.AUTO)
-    private Long deptId;
+    @TableId(value = "ID", type = IdType.AUTO)
+    private Long id;
 
     private Long parentId;
 
@@ -30,13 +30,17 @@ public class Dept implements Serializable {
     @ExcelField(value = "部门名称")
     private String deptName;
 
-    private Double orderNum;
+    private Integer orderNum;
 
     @ExcelField(value = "创建时间", writeConverter = TimeConverter.class)
     private Date createTime;
 
     @ExcelField(value = "修改时间", writeConverter = TimeConverter.class)
     private Date modifyTime;
+
+    private String createUser;
+
+    private String modifyUser;
 
     private transient String createTimeFrom;
 

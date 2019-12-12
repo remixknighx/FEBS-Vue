@@ -20,8 +20,8 @@ public class Role implements Serializable {
 
     private static final long serialVersionUID = -1714476694755654924L;
 
-    @TableId(value = "ROLE_ID", type = IdType.AUTO)
-    private Long roleId;
+    @TableId(value = "ID", type = IdType.AUTO)
+    private Long id;
 
     @NotBlank(message = "{required}")
     @Size(max = 10, message = "{noMoreThan}")
@@ -37,6 +37,9 @@ public class Role implements Serializable {
 
     @ExcelField(value = "修改时间", writeConverter = TimeConverter.class)
     private Date modifyTime;
+
+    private String createUser;
+    private String modifyUser;
 
     private transient String createTimeFrom;
     private transient String createTimeTo;

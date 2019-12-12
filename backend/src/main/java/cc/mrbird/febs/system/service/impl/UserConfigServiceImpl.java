@@ -26,7 +26,6 @@ public class UserConfigServiceImpl extends ServiceImpl<UserConfigMapper, UserCon
     }
 
     @Override
-    @Transactional
     public void initDefaultUserConfig(String userId) {
         UserConfig userConfig = new UserConfig();
         userConfig.setUserId(Long.valueOf(userId));
@@ -40,14 +39,12 @@ public class UserConfigServiceImpl extends ServiceImpl<UserConfigMapper, UserCon
     }
 
     @Override
-    @Transactional
     public void deleteByUserId(String... userIds) {
         List<String> list = Arrays.asList(userIds);
         baseMapper.deleteBatchIds(list);
     }
 
     @Override
-    @Transactional
     public void update(UserConfig userConfig) throws Exception {
         baseMapper.updateById(userConfig);
         cacheService.saveUserConfigs(String.valueOf(userConfig.getUserId()));

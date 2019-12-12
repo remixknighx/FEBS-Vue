@@ -16,10 +16,12 @@ public class UserConfig {
     public static final String DEFAULT_FIX_HEADER = "1";
     public static final String DEFAULT_COLOR = "rgb(66, 185, 131)";
 
+    @TableId(value = "ID")
+    private Long id;
+
     /**
      * 用户 ID
      */
-    @TableId(value = "USER_ID")
     private Long userId;
 
     /**

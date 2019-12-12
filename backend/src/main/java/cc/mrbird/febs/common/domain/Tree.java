@@ -28,7 +28,7 @@ public class Tree<T> {
 
     private String type;
 
-    private Double order;
+    private Integer order;
 
     private String path;
 

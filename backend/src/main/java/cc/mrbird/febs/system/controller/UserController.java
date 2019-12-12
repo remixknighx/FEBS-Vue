@@ -49,11 +49,11 @@ public class UserController extends BaseController {
 
     @GetMapping("/{username}")
     public User detail(@NotBlank(message = "{required}") @PathVariable String username) {
-        User user=this.userService.findByName(username);
+        User user = this.userService.findByName(username);
         //修复用户修改自己的个人信息第二次提示roleId不能为空
-        List<Role> roles=roleService.findUserRole(username);
-        List<Long> roleIds=roles.stream().map(role ->role.getRoleId()).collect(Collectors.toList());
-        String roleIdStr=StringUtils.join(roleIds.toArray(new Long[roleIds.size()]),",");
+        List<Role> roles = roleService.findUserRole(username);
+        List<Long> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toList());
+        String roleIdStr = StringUtils.join(roleIds.toArray(new Long[roleIds.size()]), ",");
         user.setRoleId(roleIdStr);
         return user;
     }
@@ -145,10 +145,11 @@ public class UserController extends BaseController {
             @NotBlank(message = "{required}") String password) {
         String encryptPassword = MD5Util.encrypt(username, password);
         User user = userService.findByName(username);
-        if (user != null)
+        if (user != null) {
             return StringUtils.equals(user.getPassword(), encryptPassword);
-        else
-            return false;
+        }
+
+        return false;
     }
 
     @PutMapping("password")

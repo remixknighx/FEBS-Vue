@@ -44,8 +44,8 @@ public class User implements Serializable {
     // 默认密码
     public static final String DEFAULT_PASSWORD = "1234qwer";
 
-    @TableId(value = "USER_ID", type = IdType.AUTO)
-    private Long userId;
+    @TableId(value = "ID", type = IdType.AUTO)
+    private Long id;
 
     @Size(min = 4, max = 10, message = "{range}")
     @ExcelField(value = "用户名")
@@ -103,7 +103,10 @@ public class User implements Serializable {
     private transient String createTimeFrom;
     private transient String createTimeTo;
 
-    private transient String id;
+//    private transient String id;
+
+    private String createUser;
+    private String modifyUser;
 
     /**
      * shiro-redis v3.1.0 必须要有 getAuthCacheKey()或者 getId()方法
@@ -115,6 +118,6 @@ public class User implements Serializable {
      * @return userId as Principal id field name
      */
     public Long getAuthCacheKey() {
-        return userId;
+        return id;
     }
 }

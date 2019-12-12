@@ -38,7 +38,6 @@ CREATE TABLE QRTZ_JOB_DETAILS
     IS_UPDATE_DATA VARCHAR(1) NOT NULL,
     REQUESTS_RECOVERY VARCHAR(1) NOT NULL,
     JOB_DATA BLOB NULL,
-    PRIMARY KEY (SCHED_NAME,JOB_NAME,JOB_GROUP)
 );
 
 CREATE TABLE QRTZ_TRIGGERS
@@ -266,7 +265,7 @@ CREATE TABLE `t_job_log` (
   `ERROR` text COMMENT '失败信息',
   `TIMES` int(10) DEFAULT NULL COMMENT '耗时(单位：毫秒)',
   `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`LOG_ID`) USING BTREE
+  PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -294,8 +293,8 @@ CREATE TABLE `t_login_log` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
   `USERNAME` varchar(100) NOT NULL COMMENT '用户名',
   `LOGIN_TIME` datetime NOT NULL COMMENT '登录时间',
-  `LOCATION` varchar(255) DEFAULT NULL COMMENT '登录地点',
-  `IP` varchar(100) DEFAULT NULL COMMENT 'IP地址'
+  `LOCATION` varchar(255) NOT NULL COMMENT '登录地点',
+  `IP` varchar(100) NOT NULL COMMENT 'IP地址',
     PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -325,123 +324,123 @@ CREATE TABLE `t_menu` (
 -- Records of t_menu
 -- ----------------------------
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('1', '0', '系统管理', '/system', 'PageView', null, 'appstore-o', '0', '1', '2017-12-27 16:39:07', '2019-01-05 11:13:14');
+VALUES ('1', '0', '系统管理', '/system', 'PageView', null, 'appstore-o', '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('2', '0', '系统监控', '/monitor', 'PageView', null, 'dashboard', '0', '2', '2017-12-27 16:45:51', '2019-01-23 06:27:12');
+VALUES ('2', '0', '系统监控', '/monitor', 'PageView', null, 'dashboard', '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('3', '1', '用户管理', '/system/user', 'system/user/User', 'user:view', '', '0', '1', '2017-12-27 16:47:13', '2019-01-22 06:45:55');
+VALUES ('3', '1', '用户管理', '/system/user', 'system/user/User', 'user:view', '', '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('4', '1', '角色管理', '/system/role', 'system/role/Role', 'role:view', '', '0', '2', '2017-12-27 16:48:09', '2018-04-25 09:01:12');
+VALUES ('4', '1', '角色管理', '/system/role', 'system/role/Role', 'role:view', '', '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('5', '1', '菜单管理', '/system/menu', 'system/menu/Menu', 'menu:view', '', '0', '3', '2017-12-27 16:48:57', '2018-04-25 09:01:30');
+VALUES ('5', '1', '菜单管理', '/system/menu', 'system/menu/Menu', 'menu:view', '', '0', '3');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('6', '1', '部门管理', '/system/dept', 'system/dept/Dept', 'dept:view', '', '0', '4', '2017-12-27 16:57:33', '2018-04-25 09:01:40');
+VALUES ('6', '1', '部门管理', '/system/dept', 'system/dept/Dept', 'dept:view', '', '0', '4');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('8', '2', '在线用户', '/monitor/online', 'monitor/Online', 'user:online', '', '0', '1', '2017-12-27 16:59:33', '2018-04-25 09:02:04');
+VALUES ('8', '2', '在线用户', '/monitor/online', 'monitor/Online', 'user:online', '', '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('10', '2', '系统日志', '/monitor/systemlog', 'monitor/SystemLog', 'log:view', '', '0', '2', '2017-12-27 17:00:50', '2018-04-25 09:02:18');
+VALUES ('10', '2', '系统日志', '/monitor/systemlog', 'monitor/SystemLog', 'log:view', '', '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('11', '3', '新增用户', '', '', 'user:add', null, '1', null, '2017-12-27 17:02:58', null);
+VALUES ('11', '3', '新增用户', '', '', 'user:add', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('12', '3', '修改用户', '', '', 'user:update', null, '1', null, '2017-12-27 17:04:07', null);
+VALUES ('12', '3', '修改用户', '', '', 'user:update', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('13', '3', '删除用户', '', '', 'user:delete', null, '1', null, '2017-12-27 17:04:58', null);
+VALUES ('13', '3', '删除用户', '', '', 'user:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('14', '4', '新增角色', '', '', 'role:add', null, '1', null, '2017-12-27 17:06:38', null);
+VALUES ('14', '4', '新增角色', '', '', 'role:add', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('15', '4', '修改角色', '', '', 'role:update', null, '1', null, '2017-12-27 17:06:38', null);
+VALUES ('15', '4', '修改角色', '', '', 'role:update', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('16', '4', '删除角色', '', '', 'role:delete', null, '1', null, '2017-12-27 17:06:38', null);
+VALUES ('16', '4', '删除角色', '', '', 'role:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('17', '5', '新增菜单', '', '', 'menu:add', null, '1', null, '2017-12-27 17:08:02', null);
+VALUES ('17', '5', '新增菜单', '', '', 'menu:add', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`)
-VALUES ('18', '5', '修改菜单', '', '', 'menu:update', null, '1', null, '2017-12-27 17:08:02', null);
+VALUES ('18', '5', '修改菜单', '', '', 'menu:update', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('19', '5', '删除菜单', '', '', 'menu:delete', null, '1', null, '2017-12-27 17:08:02', null);
+VALUES ('19', '5', '删除菜单', '', '', 'menu:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('20', '6', '新增部门', '', '', 'dept:add', null, '1', null, '2017-12-27 17:09:24', null);
+VALUES ('20', '6', '新增部门', '', '', 'dept:add', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('21', '6', '修改部门', '', '', 'dept:update', null, '1', null, '2017-12-27 17:09:24', null);
+VALUES ('21', '6', '修改部门', '', '', 'dept:update', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('22', '6', '删除部门', '', '', 'dept:delete', null, '1', null, '2017-12-27 17:09:24', null);
+VALUES ('22', '6', '删除部门', '', '', 'dept:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('23', '8', '踢出用户', '', '', 'user:kickout', null, '1', null, '2017-12-27 17:11:13', null);
+VALUES ('23', '8', '踢出用户', '', '', 'user:kickout', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('24', '10', '删除日志', '', '', 'log:delete', null, '1', null, '2017-12-27 17:11:45', null);
+VALUES ('24', '10', '删除日志', '', '', 'log:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('58', '0', '网络资源', '/web', 'PageView', null, 'compass', '0', '4', '2018-01-12 15:28:48', '2018-01-22 19:49:26');
+VALUES ('58', '0', '网络资源', '/web', 'PageView', null, 'compass', '0', '4');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('59', '58', '天气查询', '/web/weather', 'web/Weather', 'weather:view', '', '0', '1', '2018-01-12 15:40:02', '2019-01-22 05:43:19');
+VALUES ('59', '58', '天气查询', '/web/weather', 'web/Weather', 'weather:view', '', '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('61', '58', '每日一文', '/web/dailyArticle', 'web/DailyArticle', 'article:view', '', '0', '2', '2018-01-15 17:17:14', '2019-01-22 05:43:27');
+VALUES ('61', '58', '每日一文', '/web/dailyArticle', 'web/DailyArticle', 'article:view', '', '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('64', '1', '字典管理', '/system/dict', 'system/dict/Dict', 'dict:view', '', '0', '5', '2018-01-18 10:38:25', '2018-04-25 09:01:50');
+VALUES ('64', '1', '字典管理', '/system/dict', 'system/dict/Dict', 'dict:view', '', '0', '5');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('65', '64', '新增字典', '', '', 'dict:add', null, '1', null, '2018-01-18 19:10:08', null);
+VALUES ('65', '64', '新增字典', '', '', 'dict:add', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('66', '64', '修改字典', '', '', 'dict:update', null, '1', null, '2018-01-18 19:10:27', null);
+VALUES ('66', '64', '修改字典', '', '', 'dict:update', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('67', '64', '删除字典', '', '', 'dict:delete', null, '1', null, '2018-01-18 19:10:47', null);
+VALUES ('67', '64', '删除字典', '', '', 'dict:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('81', '58', '影视资讯', '/web/movie', 'EmptyPageView', null, null, '0', '3', '2018-01-22 14:12:59', '2019-01-22 05:43:35');
+VALUES ('81', '58', '影视资讯', '/web/movie', 'EmptyPageView', null, null, '0', '3');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('82', '81', '正在热映', '/web/movie/hot', 'web/MovieHot', 'movie:hot', '', '0', '1', '2018-01-22 14:13:47', '2019-01-22 05:43:52');
+VALUES ('82', '81', '正在热映', '/web/movie/hot', 'web/MovieHot', 'movie:hot', '', '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('83', '81', '即将上映', '/web/movie/coming', 'web/MovieComing', 'movie:coming', '', '0', '2', '2018-01-22 14:14:36', '2019-01-22 05:43:58');
+VALUES ('83', '81', '即将上映', '/web/movie/coming', 'web/MovieComing', 'movie:coming', '', '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('101', '0', '任务调度', '/job', 'PageView', null, 'clock-circle-o', '0', '3', '2018-01-11 15:52:57', null);
+VALUES ('101', '0', '任务调度', '/job', 'PageView', null, 'clock-circle-o', '0', '3');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('102', '101', '定时任务', '/job/job', 'quartz/job/Job', 'job:view', '', '0', '1', '2018-02-24 15:53:53', '2019-01-22 05:42:50');
+VALUES ('102', '101', '定时任务', '/job/job', 'quartz/job/Job', 'job:view', '', '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('103', '102', '新增任务', '', '', 'job:add', null, '1', null, '2018-02-24 15:55:10', null);
+VALUES ('103', '102', '新增任务', '', '', 'job:add', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('104', '102', '修改任务', '', '', 'job:update', null, '1', null, '2018-02-24 15:55:53', null);
+VALUES ('104', '102', '修改任务', '', '', 'job:update', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('105', '102', '删除任务', '', '', 'job:delete', null, '1', null, '2018-02-24 15:56:18', null);
+VALUES ('105', '102', '删除任务', '', '', 'job:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('106', '102', '暂停任务', '', '', 'job:pause', null, '1', null, '2018-02-24 15:57:08', null);
+VALUES ('106', '102', '暂停任务', '', '', 'job:pause', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('107', '102', '恢复任务', '', '', 'job:resume', null, '1', null, '2018-02-24 15:58:21', null);
+VALUES ('107', '102', '恢复任务', '', '', 'job:resume', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('108', '102', '立即执行任务', '', '', 'job:run', null, '1', null, '2018-02-24 15:59:45', null);
+VALUES ('108', '102', '立即执行任务', '', '', 'job:run', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('109', '101', '调度日志', '/job/log', 'quartz/log/JobLog', 'jobLog:view', '', '0', '2', '2018-02-24 16:00:45', '2019-01-22 05:42:59');
+VALUES ('109', '101', '调度日志', '/job/log', 'quartz/log/JobLog', 'jobLog:view', '', '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('110', '109', '删除日志', '', '', 'jobLog:delete', null, '1', null, '2018-02-24 16:01:21', null);
+VALUES ('110', '109', '删除日志', '', '', 'jobLog:delete', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('113', '2', 'Redis监控', '/monitor/redis/info', 'monitor/RedisInfo', 'redis:view', '', '0', '3', '2018-06-28 14:29:42', null);
+VALUES ('113', '2', 'Redis监控', '/monitor/redis/info', 'monitor/RedisInfo', 'redis:view', '', '0', '3');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('121', '2', '请求追踪', '/monitor/httptrace', 'monitor/Httptrace', null, null, '0', '4', '2019-01-18 02:30:29', null);
+VALUES ('121', '2', '请求追踪', '/monitor/httptrace', 'monitor/Httptrace', null, null, '0', '4');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('122', '2', '系统信息', '/monitor/system', 'EmptyPageView', null, null, '0', '5', '2019-01-18 02:31:48', '2019-01-18 02:39:46');
+VALUES ('122', '2', '系统信息', '/monitor/system', 'EmptyPageView', null, null, '0', '5');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('123', '122', 'Tomcat信息', '/monitor/system/tomcatinfo', 'monitor/TomcatInfo', null, null, '0', '2', '2019-01-18 02:32:53', '2019-01-18 02:46:57');
+VALUES ('123', '122', 'Tomcat信息', '/monitor/system/tomcatinfo', 'monitor/TomcatInfo', null, null, '0', '2');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('124', '122', 'JVM信息', '/monitor/system/jvminfo', 'monitor/JvmInfo', null, null, '0', '1', '2019-01-18 02:33:30', '2019-01-18 02:46:51');
+VALUES ('124', '122', 'JVM信息', '/monitor/system/jvminfo', 'monitor/JvmInfo', null, null, '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('127', '122', '服务器信息', '/monitor/system/info', 'monitor/SystemInfo', null, null, '0', '3', '2019-01-21 07:53:43', '2019-01-21 07:57:00');
+VALUES ('127', '122', '服务器信息', '/monitor/system/info', 'monitor/SystemInfo', null, null, '0', '3');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('128', '0', '其他模块', '/others', 'PageView', null, 'coffee', '0', '5', '2019-01-22 06:49:59', '2019-01-22 06:50:13');
+VALUES ('128', '0', '其他模块', '/others', 'PageView', null, 'coffee', '0', '5');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('129', '128', '导入导出', '/others/excel', 'others/Excel', null, null, '0', '1', '2019-01-22 06:51:36', '2019-01-22 07:06:45');
+VALUES ('129', '128', '导入导出', '/others/excel', 'others/Excel', null, null, '0', '1');
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('130', '3', '导出Excel', null, null, 'user:export', null, '1', null, '2019-01-23 06:35:16', null);
+VALUES ('130', '3', '导出Excel', null, null, 'user:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('131', '4', '导出Excel', null, null, 'role:export', null, '1', null, '2019-01-23 06:35:36', null);
+VALUES ('131', '4', '导出Excel', null, null, 'role:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('132', '5', '导出Excel', null, null, 'menu:export', null, '1', null, '2019-01-23 06:36:05', null);
+VALUES ('132', '5', '导出Excel', null, null, 'menu:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('133', '6', '导出Excel', null, null, 'dept:export', null, '1', null, '2019-01-23 06:36:25', null);
+VALUES ('133', '6', '导出Excel', null, null, 'dept:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('134', '64', '导出Excel', null, null, 'dict:export', null, '1', null, '2019-01-23 06:36:43', null);
+VALUES ('134', '64', '导出Excel', null, null, 'dict:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('135', '3', '密码重置', null, null, 'user:reset', null, '1', null, '2019-01-23 06:37:00', null);
+VALUES ('135', '3', '密码重置', null, null, 'user:reset', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('136', '10', '导出Excel', null, null, 'log:export', null, '1', null, '2019-01-23 06:37:27', null);
+VALUES ('136', '10', '导出Excel', null, null, 'log:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('137', '102', '导出Excel', null, null, 'job:export', null, '1', null, '2019-01-23 06:37:59', null);
+VALUES ('137', '102', '导出Excel', null, null, 'job:export', null, '1', null);
 INSERT INTO `t_menu`(`ID`,`PARENT_ID`, `MENU_NAME`, `PATH`,`COMPONENT`,`PERMS`,`ICON`,`TYPE`,`ORDER_NUM`) 
-VALUES ('138', '109', '导出Excel', null, null, 'jobLog:export', null, '1', null, '2019-01-23 06:38:32', null);
+VALUES ('138', '109', '导出Excel', null, null, 'jobLog:export', null, '1', null);
 
 -- ----------------------------
 -- Table structure for t_role

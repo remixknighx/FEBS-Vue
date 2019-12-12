@@ -57,13 +57,11 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
     }
 
     @Override
-    @Transactional
     public void saveJobLog(JobLog log) {
         this.save(log);
     }
 
     @Override
-    @Transactional
     public void deleteJobLogs(String[] jobLogIds) {
         List<String> list = Arrays.asList(jobLogIds);
         this.baseMapper.deleteBatchIds(list);

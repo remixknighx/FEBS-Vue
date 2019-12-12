@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -48,8 +47,8 @@ public class Job implements Serializable {
         }
     }
 
-    @TableId(value = "JOB_ID", type = IdType.AUTO)
-    private Long jobId;
+    @TableId(value = "ID", type = IdType.AUTO)
+    private Long id;
 
     @NotBlank(message = "{required}")
     @Size(max = 50, message = "{noMoreThan}")
@@ -79,6 +78,12 @@ public class Job implements Serializable {
 
     @ExcelField(value = "创建时间", writeConverter = TimeConverter.class)
     private Date createTime;
+
+    @ExcelField(value = "修改时间", writeConverter = TimeConverter.class)
+    private Date modifyTime;
+
+    private String createUser;
+    private String modifyUser;
 
     private transient String createTimeFrom;
     private transient String createTimeTo;

@@ -72,12 +72,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     public List<Menu> findMenuList(Menu menu) {
         LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
         findMenuCondition(queryWrapper, menu);
-        queryWrapper.orderByAsc(Menu::getMenuId);
+        queryWrapper.orderByAsc(Menu::getId);
         return this.baseMapper.selectList(queryWrapper);
     }
 
     @Override
-    @Transactional
     public void createMenu(Menu menu) {
         menu.setCreateTime(new Date());
         setMenu(menu);
@@ -85,20 +84,18 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
-    @Transactional
     public void updateMenu(Menu menu) throws Exception {
         menu.setModifyTime(new Date());
         setMenu(menu);
         baseMapper.updateById(menu);
 
         // 查找与这些菜单/按钮关联的用户
-        List<String> userIds = this.baseMapper.findUserIdsByMenuId(String.valueOf(menu.getMenuId()));
+        List<String> userIds = this.baseMapper.findUserIdsByMenuId(String.valueOf(menu.getId()));
         // 重新将这些用户的角色和权限缓存到 Redis中
         this.userManager.loadUserPermissionRoleRedisCache(userIds);
     }
 
     @Override
-    @Transactional
     public void deleteMeuns(String[] menuIds) throws Exception {
         this.delete(Arrays.asList(menuIds));
         for (String menuId : menuIds) {
@@ -111,9 +108,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     private void buildTrees(List<Tree<Menu>> trees, List<Menu> menus, List<String> ids) {
         menus.forEach(menu -> {
-            ids.add(menu.getMenuId().toString());
+            ids.add(menu.getId().toString());
             Tree<Menu> tree = new Tree<>();
-            tree.setId(menu.getMenuId().toString());
+            tree.setId(String.valueOf(menu.getId()));
             tree.setKey(tree.getId());
             tree.setParentId(menu.getParentId().toString());
             tree.setText(menu.getMenuName());
@@ -131,8 +128,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     private void setMenu(Menu menu) {
-        if (menu.getParentId() == null)
+        if (menu.getParentId() == null) {
             menu.setParentId(0L);
+        }
         if (Menu.TYPE_BUTTON.equals(menu.getType())) {
             menu.setPath(null);
             menu.setIcon(null);
@@ -163,7 +161,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<Menu> menus = baseMapper.selectList(queryWrapper);
         if (CollectionUtils.isNotEmpty(menus)) {
             List<String> menuIdList = new ArrayList<>();
-            menus.forEach(m -> menuIdList.add(String.valueOf(m.getMenuId())));
+            menus.forEach(m -> menuIdList.add(String.valueOf(m.getId())));
             this.delete(menuIdList);
         }
     }

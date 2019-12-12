@@ -49,12 +49,15 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     public List<Dept> findDepts(Dept dept, QueryRequest request) {
         QueryWrapper<Dept> queryWrapper = new QueryWrapper<>();
 
-        if (StringUtils.isNotBlank(dept.getDeptName()))
+        if (StringUtils.isNotBlank(dept.getDeptName())) {
             queryWrapper.lambda().eq(Dept::getDeptName, dept.getDeptName());
-        if (StringUtils.isNotBlank(dept.getCreateTimeFrom()) && StringUtils.isNotBlank(dept.getCreateTimeTo()))
+        }
+        if (StringUtils.isNotBlank(dept.getCreateTimeFrom()) && StringUtils.isNotBlank(dept.getCreateTimeTo())) {
             queryWrapper.lambda()
                     .ge(Dept::getCreateTime, dept.getCreateTimeFrom())
                     .le(Dept::getCreateTime, dept.getCreateTimeTo());
+        }
+
         SortUtil.handleWrapperSort(request, queryWrapper, "orderNum", FebsConstant.ORDER_ASC, true);
         return this.baseMapper.selectList(queryWrapper);
     }
@@ -63,8 +66,9 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     @Transactional
     public void createDept(Dept dept) {
         Long parentId = dept.getParentId();
-        if (parentId == null)
+        if (parentId == null) {
             dept.setParentId(0L);
+        }
         dept.setCreateTime(new Date());
         this.save(dept);
     }
@@ -85,7 +89,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     private void buildTrees(List<Tree<Dept>> trees, List<Dept> depts) {
         depts.forEach(dept -> {
             Tree<Dept> tree = new Tree<>();
-            tree.setId(dept.getDeptId().toString());
+            tree.setId(String.valueOf(dept.getId()));
             tree.setKey(tree.getId());
             tree.setParentId(dept.getParentId().toString());
             tree.setText(dept.getDeptName());
@@ -106,7 +110,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
         List<Dept> depts = baseMapper.selectList(queryWrapper);
         if (CollectionUtils.isNotEmpty(depts)) {
             List<String> deptIdList = new ArrayList<>();
-            depts.forEach(d -> deptIdList.add(String.valueOf(d.getDeptId())));
+            depts.forEach(d -> deptIdList.add(String.valueOf(d.getId())));
             this.delete(deptIdList);
         }
     }

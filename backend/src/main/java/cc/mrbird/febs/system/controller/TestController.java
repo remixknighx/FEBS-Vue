@@ -35,7 +35,7 @@ public class TestController extends BaseController {
     @Autowired
     private TestService testService;
 
-    @GetMapping
+    @GetMapping("find")
     public Map<String, Object> findTests(QueryRequest request) {
         Page<Test> page = new Page<>(request.getPageNum(), request.getPageSize());
         return getDataTable(testService.page(page, null));
@@ -83,6 +83,7 @@ public class TestController extends BaseController {
                     test.setCreateTime(new Date());
                     data.add(test);
                 }
+
                 @Override
                 public void onError(int sheet, int row, List<ExcelErrorField> errorFields) {
                     // 数据校验失败时，记录到 error集合

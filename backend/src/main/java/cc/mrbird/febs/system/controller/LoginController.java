@@ -60,12 +60,15 @@ public class LoginController {
         final String errorMessage = "用户名或密码错误";
         User user = this.userManager.getUser(username);
 
-        if (user == null)
+        if (user == null) {
             throw new FebsException(errorMessage);
-        if (!StringUtils.equals(user.getPassword(), password))
+        }
+        if (!StringUtils.equals(user.getPassword(), password)) {
             throw new FebsException(errorMessage);
-        if (User.STATUS_LOCK.equals(user.getStatus()))
+        }
+        if (User.STATUS_LOCK.equals(user.getStatus())) {
             throw new FebsException("账号已被锁定,请联系管理员！");
+        }
 
         // 更新用户登录时间
         this.userService.updateLoginTime(username);
@@ -80,7 +83,7 @@ public class LoginController {
         JWTToken jwtToken = new JWTToken(token, expireTimeStr);
 
         String userId = this.saveTokenToRedis(user, jwtToken, request);
-        user.setId(userId);
+        user.setId(Long.valueOf(userId));
 
         Map<String, Object> userInfo = this.generateUserInfo(jwtToken, user);
         return new FebsResponse().message("认证成功").data(userInfo);
@@ -116,8 +119,9 @@ public class LoginController {
             ActiveUser activeUser = mapper.readValue(userOnlineString, ActiveUser.class);
             activeUser.setToken(null);
             if (StringUtils.isNotBlank(username)) {
-                if (StringUtils.equalsIgnoreCase(username, activeUser.getUsername()))
+                if (StringUtils.equalsIgnoreCase(username, activeUser.getUsername())) {
                     activeUsers.add(activeUser);
+                }
             } else {
                 activeUsers.add(activeUser);
             }
@@ -201,7 +205,7 @@ public class LoginController {
         Set<String> permissions = this.userManager.getUserPermissions(username);
         userInfo.put("permissions", permissions);
 
-        UserConfig userConfig = this.userManager.getUserConfig(String.valueOf(user.getUserId()));
+        UserConfig userConfig = this.userManager.getUserConfig(String.valueOf(user.getId()));
         userInfo.put("config", userConfig);
 
         user.setPassword("it's a secret");

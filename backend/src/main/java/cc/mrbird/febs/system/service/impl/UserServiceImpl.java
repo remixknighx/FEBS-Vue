@@ -64,7 +64,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void updateLoginTime(String username) throws Exception {
         User user = new User();
         user.setLastLoginTime(new Date());
@@ -76,7 +75,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void createUser(User user) throws Exception {
         // 创建用户
         user.setCreateTime(new Date());
@@ -89,21 +87,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         setUserRoles(user, roles);
 
         // 创建用户默认的个性化配置
-        userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));
+        userConfigService.initDefaultUserConfig(String.valueOf(user.getId()));
 
         // 将用户相关信息保存到 Redis中
         userManager.loadUserRedisCache(user);
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) throws Exception {
         // 更新用户
         user.setPassword(null);
         user.setModifyTime(new Date());
         updateById(user);
 
-        userRoleMapper.delete(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
+        userRoleMapper.delete(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getId()));
 
         String[] roles = user.getRoleId().split(StringPool.COMMA);
         setUserRoles(user, roles);
@@ -115,7 +112,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void deleteUsers(String[] userIds) throws Exception {
         // 先删除相应的缓存
         this.userManager.deleteUserRedisCache(userIds);
@@ -131,7 +127,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void updateProfile(User user) throws Exception {
         updateById(user);
         // 重新缓存用户信息
@@ -139,7 +134,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void updateAvatar(String username, String avatar) throws Exception {
         User user = new User();
         user.setAvatar(avatar);
@@ -150,7 +144,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void updatePassword(String username, String password) throws Exception {
         User user = new User();
         user.setPassword(MD5Util.encrypt(username, password));
@@ -161,7 +154,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional
     public void regist(String username, String password) throws Exception {
         User user = new User();
         user.setPassword(MD5Util.encrypt(username, password));
@@ -174,19 +166,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         this.save(user);
 
         UserRole ur = new UserRole();
-        ur.setUserId(user.getUserId());
+        ur.setUserId(user.getId());
         ur.setRoleId(2L); // 注册用户角色 ID
         this.userRoleMapper.insert(ur);
 
         // 创建用户默认的个性化配置
-        userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));
+        userConfigService.initDefaultUserConfig(String.valueOf(user.getId()));
         // 将用户相关信息保存到 Redis中
         userManager.loadUserRedisCache(user);
 
     }
 
     @Override
-    @Transactional
     public void resetPassword(String[] usernames) throws Exception {
         for (String username : usernames) {
 
@@ -203,7 +194,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private void setUserRoles(User user, String[] roles) {
         Arrays.stream(roles).forEach(roleId -> {
             UserRole ur = new UserRole();
-            ur.setUserId(user.getUserId());
+            ur.setUserId(user.getId());
             ur.setRoleId(Long.valueOf(roleId));
             this.userRoleMapper.insert(ur);
         });

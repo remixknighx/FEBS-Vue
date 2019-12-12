@@ -43,7 +43,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         List<Job> scheduleJobList = this.baseMapper.queryList();
         // 如果不存在，则创建
         scheduleJobList.forEach(scheduleJob -> {
-            CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
+            CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getId());
             if (cronTrigger == null) {
                 ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
             } else {
@@ -93,7 +93,6 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     }
 
     @Override
-    @Transactional
     public void createJob(Job job) {
         job.setCreateTime(new Date());
         job.setStatus(Job.ScheduleStatus.PAUSE.getValue());
@@ -102,14 +101,12 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     }
 
     @Override
-    @Transactional
     public void updateJob(Job job) {
         ScheduleUtils.updateScheduleJob(scheduler, job);
         this.baseMapper.updateById(job);
     }
 
     @Override
-    @Transactional
     public void deleteJobs(String[] jobIds) {
         List<String> list = Arrays.asList(jobIds);
         list.forEach(jobId -> ScheduleUtils.deleteScheduleJob(scheduler, Long.valueOf(jobId)));
@@ -117,23 +114,20 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     }
 
     @Override
-    @Transactional
     public int updateBatch(String jobIds, String status) {
         List<String> list = Arrays.asList(jobIds.split(StringPool.COMMA));
         Job job = new Job();
         job.setStatus(status);
-        return this.baseMapper.update(job, new LambdaQueryWrapper<Job>().in(Job::getJobId, list));
+        return this.baseMapper.update(job, new LambdaQueryWrapper<Job>().in(Job::getId, list));
     }
 
     @Override
-    @Transactional
     public void run(String jobIds) {
         String[] list = jobIds.split(StringPool.COMMA);
         Arrays.stream(list).forEach(jobId -> ScheduleUtils.run(scheduler, this.findJob(Long.valueOf(jobId))));
     }
 
     @Override
-    @Transactional
     public void pause(String jobIds) {
         String[] list = jobIds.split(StringPool.COMMA);
         Arrays.stream(list).forEach(jobId -> ScheduleUtils.pauseJob(scheduler, Long.valueOf(jobId)));
@@ -141,7 +135,6 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     }
 
     @Override
-    @Transactional
     public void resume(String jobIds) {
         String[] list = jobIds.split(StringPool.COMMA);
         Arrays.stream(list).forEach(jobId -> ScheduleUtils.resumeJob(scheduler, Long.valueOf(jobId)));

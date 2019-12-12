@@ -17,14 +17,12 @@ import java.util.List;
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuServie {
 
 	@Override
-	@Transactional
 	public void deleteRoleMenusByRoleId(String[] roleIds) {
 		List<String> list = Arrays.asList(roleIds);
 		baseMapper.delete(new LambdaQueryWrapper<RoleMenu>().in(RoleMenu::getRoleId, list));
 	}
 
 	@Override
-	@Transactional
 	public void deleteRoleMenusByMenuId(String[] menuIds) {
 		List<String> list = Arrays.asList(menuIds);
 		baseMapper.delete(new LambdaQueryWrapper<RoleMenu>().in(RoleMenu::getMenuId, list));
