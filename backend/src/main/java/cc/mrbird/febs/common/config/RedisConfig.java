@@ -31,7 +31,6 @@ import java.time.Duration;
 import java.util.Arrays;
 
 @Configuration
-
 public class RedisConfig extends CachingConfigurerSupport {
 
     @Value("${spring.redis.host}")
