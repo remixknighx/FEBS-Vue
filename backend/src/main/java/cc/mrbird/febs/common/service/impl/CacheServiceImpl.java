@@ -84,7 +84,7 @@ public class CacheServiceImpl implements CacheService {
     public UserConfig getUserConfig(String userId) throws Exception {
         String userConfigString = this.redisService.get(FebsConstant.USER_CONFIG_CACHE_PREFIX + userId);
         if (StringUtils.isBlank(userConfigString))
-            throw new Exception();
+            return null;
         else
             return this.mapper.readValue(userConfigString, UserConfig.class);
     }

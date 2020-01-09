@@ -83,7 +83,7 @@ public class LoginController {
         JWTToken jwtToken = new JWTToken(token, expireTimeStr);
 
         String userId = this.saveTokenToRedis(user, jwtToken, request);
-        user.setId(Long.valueOf(userId));
+//        user.setId(Long.valueOf(userId));
 
         Map<String, Object> userInfo = this.generateUserInfo(jwtToken, user);
         return new FebsResponse().message("认证成功").data(userInfo);

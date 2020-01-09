@@ -4,7 +4,9 @@ import cc.mrbird.febs.common.service.CacheService;
 import cc.mrbird.febs.system.dao.UserConfigMapper;
 import cc.mrbird.febs.system.domain.UserConfig;
 import cc.mrbird.febs.system.service.UserConfigService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,7 +24,11 @@ public class UserConfigServiceImpl extends ServiceImpl<UserConfigMapper, UserCon
 
     @Override
     public UserConfig findByUserId(String userId) {
-        return baseMapper.selectById(userId);
+        LambdaQueryWrapper<UserConfig> queryWrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(userId)) {
+            queryWrapper.eq(UserConfig::getUserId, userId);
+        }
+        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
