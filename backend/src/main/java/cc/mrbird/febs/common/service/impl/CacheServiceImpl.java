@@ -52,10 +52,11 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public User getUser(String username) throws Exception {
         String userString = this.redisService.get(FebsConstant.USER_CACHE_PREFIX + username);
-        if (StringUtils.isBlank(userString))
+        if (StringUtils.isBlank(userString)){
             throw new Exception();
-        else
+        } else {
             return this.mapper.readValue(userString, User.class);
+        }
     }
 
     @Override
@@ -83,10 +84,11 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public UserConfig getUserConfig(String userId) throws Exception {
         String userConfigString = this.redisService.get(FebsConstant.USER_CONFIG_CACHE_PREFIX + userId);
-        if (StringUtils.isBlank(userConfigString))
+        if (StringUtils.isBlank(userConfigString)) {
             return null;
-        else
+        } else {
             return this.mapper.readValue(userConfigString, UserConfig.class);
+        }
     }
 
     @Override

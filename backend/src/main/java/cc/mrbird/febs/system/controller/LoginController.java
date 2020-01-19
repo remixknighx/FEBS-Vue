@@ -147,7 +147,7 @@ public class LoginController {
             // 删除 zset中的记录
             redisService.zrem(FebsConstant.ACTIVE_USERS_ZSET_PREFIX, kickoutUserString);
             // 删除对应的 token缓存
-            redisService.del(FebsConstant.TOKEN_CACHE_PREFIX + kickoutUser.getToken() + "." + kickoutUser.getIp());
+            redisService.del(FebsConstant.TOKEN_CACHE_PREFIX + kickoutUser.getToken() + StringPool.DOT + kickoutUser.getIp());
         }
     }
 
