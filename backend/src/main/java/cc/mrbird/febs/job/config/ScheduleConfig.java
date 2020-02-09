@@ -44,9 +44,9 @@ public class ScheduleConfig {
 		factory.setApplicationContextSchedulerContextKey("applicationContextKey");
 		// 可选，QuartzScheduler
 		// 启动时更新己存在的 Job
-		factory.setOverwriteExistingJobs(true);
+		factory.setOverwriteExistingJobs(false);
 		// 设置自动启动，默认为 true
-		factory.setAutoStartup(true);
+		factory.setAutoStartup(false);
 
 		return factory;
 	}

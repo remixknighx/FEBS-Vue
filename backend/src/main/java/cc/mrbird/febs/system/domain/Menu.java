@@ -27,6 +27,8 @@ public class Menu implements Serializable {
     @TableId(value = "ID", type = IdType.AUTO)
     private Long id;
 
+    private Long appId;
+
     private Long parentId;
 
     @NotBlank(message = "{required}")

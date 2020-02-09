@@ -24,6 +24,9 @@ public class Role implements Serializable {
     private Long id;
 
     @NotBlank(message = "{required}")
+    private Long appId;
+
+    @NotBlank(message = "{required}")
     @Size(max = 10, message = "{noMoreThan}")
     @ExcelField(value = "角色名称")
     private String roleName;
@@ -44,5 +47,6 @@ public class Role implements Serializable {
     private transient String createTimeFrom;
     private transient String createTimeTo;
     private transient String menuId;
+
 
 }
