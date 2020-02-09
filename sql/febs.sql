@@ -275,7 +275,7 @@ CREATE TABLE `t_log` (
   `OPERATION` text COMMENT '操作内容',
   `TIME` int(10) DEFAULT NULL COMMENT '耗时',
   `METHOD` VARCHAR(100) COMMENT '操作方法',
-  `PARAMS` VARCHAR(150) COMMENT '方法参数',
+  `PARAMS` VARCHAR(500) COMMENT '方法参数',
   `IP` varchar(64) DEFAULT NULL COMMENT '操作者IP',
   `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
   `location` varchar(50) DEFAULT NULL COMMENT '操作地点',
@@ -319,7 +319,7 @@ insert into t_app (`APP_NAME`,`STATUS`)values('auth权限系统', '1');
 DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单/按钮ID',
-  `APP_ID` bigint(20) NOT NULL COMMENT '系统ID',
+  `APP_ID` bigint(20) NOT NULL DEFAULT '1'  COMMENT '系统ID',
   `PARENT_ID` bigint(20) NOT NULL COMMENT '上级菜单ID',
   `MENU_NAME` varchar(50) NOT NULL COMMENT '菜单/按钮名称',
   `PATH` varchar(255) DEFAULT NULL COMMENT '对应路由path',
