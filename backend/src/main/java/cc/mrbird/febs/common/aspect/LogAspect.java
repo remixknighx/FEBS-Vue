@@ -1,9 +1,11 @@
 package cc.mrbird.febs.common.aspect;
 
+import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.authentication.JWTUtil;
 import cc.mrbird.febs.common.properties.FebsProperties;
 import cc.mrbird.febs.common.utils.HttpContextUtil;
 import cc.mrbird.febs.common.utils.IPUtil;
+import cc.mrbird.febs.system.domain.App;
 import cc.mrbird.febs.system.domain.SysLog;
 import cc.mrbird.febs.system.service.LogService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,22 @@ public class LogAspect {
         // do nothing
     }
 
+//    @Around("pointcut()&&@annotation(log)")
+//    public Object around(ProceedingJoinPoint point, Log log) throws Throwable {
+//        System.out.println("---------->注解Log Value" + log.value());
+//
+//        for (Object param: point.getArgs()) {
+//            System.out.println("-------------->方法参数" + param);
+//        }
+//        Object result = point.proceed();
+//
+//        if (result instanceof App) {
+//            System.out.println("-------------->方法结果:" + ((App)result).getAppName());
+//        }
+//
+//        return result;
+//    }
+
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object result = null;
@@ -68,4 +86,5 @@ public class LogAspect {
         }
         return result;
     }
+
 }

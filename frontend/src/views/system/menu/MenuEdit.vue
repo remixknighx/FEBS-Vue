@@ -176,7 +176,7 @@ export default {
         this.checkedKeys = this.defaultCheckedKeys
         this.expandedKeys = this.checkedKeys
       }
-      this.menu.menuId = menu.id
+      this.menu.id = menu.id
       this.menuTreeKey = +new Date()
     },
     handleSubmit () {
@@ -185,7 +185,7 @@ export default {
         this.$message.error('最多只能选择一个上级菜单，请修改')
         return
       }
-      if (checkedArr[0] === this.menu.menuId) {
+      if (checkedArr[0] === this.menu.id) {
         this.$message.error('不能选择自己作为上级菜单，请修改')
         return
       }
@@ -195,7 +195,7 @@ export default {
           let icon = this.menu.icon
           let menu = this.form.getFieldsValue()
           menu.icon = icon
-          menu.menuId = this.menu.menuId
+          menu.id = this.menu.id
           if (checkedArr.length) {
             menu.parentId = checkedArr[0]
           } else {

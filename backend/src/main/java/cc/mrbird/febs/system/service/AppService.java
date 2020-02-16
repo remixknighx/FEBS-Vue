@@ -13,4 +13,6 @@ public interface AppService extends IService<App> {
 
     IPage<App> findApps(QueryRequest request, App app);
 
+    App findAppById(String id) throws Exception;
+
 }

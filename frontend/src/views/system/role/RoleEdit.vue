@@ -154,7 +154,7 @@ export default {
           if (!err) {
             this.loading = true
             let role = this.form.getFieldsValue()
-            role.roleId = this.roleInfoData.roleId
+            role.id = this.roleInfoData.id
             role.menuId = checkedArr.join(',')
             this.$put('role', {
               ...role
@@ -175,7 +175,7 @@ export default {
         this.$get('menu').then((r) => {
           this.menuTreeData = r.data.rows.children
           this.allTreeKeys = r.data.ids
-          this.$get('role/menu/' + this.roleInfoData.roleId).then((r) => {
+          this.$get('role/menu/' + this.roleInfoData.id).then((r) => {
             this.defaultCheckedKeys.splice(0, this.defaultCheckedKeys.length, r.data)
             this.checkedKeys = r.data
             this.expandedKeys = r.data
