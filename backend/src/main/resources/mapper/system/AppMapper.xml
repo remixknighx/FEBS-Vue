@@ -3,7 +3,7 @@
 <mapper namespace="cc.mrbird.febs.system.dao.AppMapper">
 
     <update id="deleteApp" parameterType="Long">
-        UPDATE t_app SET STATUS = 0 WHERE id = #{appId, jdbcType=BIGINT}
+        DELETE FROM t_app WHERE id = #{appId, jdbcType=BIGINT}
     </update>
 
 </mapper>

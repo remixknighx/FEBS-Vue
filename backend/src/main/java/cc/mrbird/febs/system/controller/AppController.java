@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -64,13 +65,14 @@ public class AppController extends BaseController {
     }
 
     @Log("删除应用")
-    @DeleteMapping("/{appId}")
-    public void deleteApp(@PathVariable Long appId) throws FebsException {
+    @DeleteMapping("/{appIds}")
+    public void deleteApp(@PathVariable String appIds) throws FebsException {
         try {
-            appMapper.deleteApp(appId);
+            Arrays.asList(appIds.split(",")).stream().map(appId -> Long.valueOf(appId))
+                    .forEach(appId -> appMapper.deleteApp(appId));
         } catch (Exception e) {
             message = "删除应用失败";
-            log.error(message + " id:" + appId, e);
+            log.error(message + " id:" + appIds, e);
             throw new FebsException(message);
         }
     }
