@@ -22,6 +22,20 @@
       <a-form-item label="是否启用" v-bind="formItemLayout">
         <a-checkbox :checked="checked" @click="onChange">是否启用</a-checkbox>
       </a-form-item>
+      <a-form-item label='菜单管理'
+                   style="margin-bottom: 2rem"
+                   v-bind="formItemLayout">
+        <a-tree
+          ref="menuTree"
+          :key="menuTreeKey"
+          :checkable="false"
+          :checkStrictly="false"
+          @expand="handleExpand"
+          :expandedKeys="expandedKeys"
+          :defaultCheckedKeys="defaultCheckedKeys"
+          :treeData="menuTreeData">
+        </a-tree>
+      </a-form-item>
     </a-form>
     <div class="drawer-bootom-button">
       <a-popconfirm title="确定放弃编辑？" @confirm="onClose" okText="确定" cancelText="取消">
@@ -51,13 +65,20 @@ export default {
       loading: false,
       form: this.$form.createForm(this),
       app: {},
-      checked: false
+      checked: false,
+      menuTreeKey: +new Date(),
+      menuTreeData: [],
+      expandedKeys: [],
+      defaultCheckedKeys: []
     }
   },
   methods: {
     reset() {
       this.button = {}
       this.loading = false
+      this.menuTreeKey = +new Date()
+      this.expandedKeys = this.defaultCheckedKeys = []
+      this.app.id = ''
       this.form.resetFields()
     },
     onClose() {
@@ -67,6 +88,9 @@ export default {
     onChange(e) {
       this.app.status = 1 - this.app.status
       this.checked = this.app.status === 1
+    },
+    handleExpand(expandedKeys) {
+      this.expandedKeys = expandedKeys
     },
     setFormValues({ ...app }) {
       this.form.getFieldDecorator('appName')
@@ -117,6 +141,17 @@ export default {
           }
         }
       })
+    }
+  },
+  watch: {
+    appEditVisiable() {
+      if (this.appEditVisiable && this.app.id !== undefined && this.app.id !== '') {
+        this.$get('app/' + this.app.id).then((r) => {
+          this.menuTreeData = [r.data.rows]
+          this.allTreeKeys = r.data.ids
+          this.menuTreeKey = +new Date()
+        })
+      }
     }
   }
 }

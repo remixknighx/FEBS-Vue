@@ -49,7 +49,7 @@
             theme="twoTone"
             twoToneColor="#4a9ff5"
             @click="edit(record)"
-            title="修改应用"></a-icon>&nbsp;    
+            title="修改应用"></a-icon>&nbsp;
         </template>
       </a-table>
     </div>
@@ -152,8 +152,8 @@ export default {
   },
   methods: {
     edit(record) {
-      this.appEditVisiable = true
       this.$refs.appEdit.setFormValues(record)
+      this.appEditVisiable = true
     },
     handleAppEditClose() {
       this.appEditVisiable = false

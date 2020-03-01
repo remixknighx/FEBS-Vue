@@ -106,7 +106,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         }
     }
 
-    private void buildTrees(List<Tree<Menu>> trees, List<Menu> menus, List<String> ids) {
+    @Override
+    public void buildTrees(List<Tree<Menu>> trees, List<Menu> menus, List<String> ids) {
         menus.forEach(menu -> {
             ids.add(menu.getId().toString());
             Tree<Menu> tree = new Tree<>();

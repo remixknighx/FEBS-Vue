@@ -15,14 +15,7 @@ public class TreeUtil {
 
     private final static String TOP_NODE_ID = "0";
 
-    /**
-     * 用于构建菜单或部门树
-     *
-     * @param nodes nodes
-     * @param <T>   <T>
-     * @return <T> Tree<T>
-     */
-    public static <T> Tree<T> build(List<Tree<T>> nodes) {
+    public static <T> List<Tree<T>> buildTopNodes(List<Tree<T>> nodes){
         if (nodes == null) {
             return null;
         }
@@ -36,8 +29,9 @@ public class TreeUtil {
             for (Tree<T> n : nodes) {
                 String id = n.getId();
                 if (id != null && id.equals(pid)) {
-                    if (n.getChildren() == null)
+                    if (n.getChildren() == null) {
                         n.initChildren();
+                    }
                     n.getChildren().add(node);
                     node.setHasParent(true);
                     n.setHasChildren(true);
@@ -45,10 +39,23 @@ public class TreeUtil {
                     return;
                 }
             }
-            if (topNodes.isEmpty())
+            if (topNodes.isEmpty()) {
                 topNodes.add(node);
+            }
         });
 
+        return topNodes;
+    }
+
+    /**
+     * 用于构建菜单或部门树
+     *
+     * @param nodes nodes
+     * @param <T>   <T>
+     * @return <T> Tree<T>
+     */
+    public static <T> Tree<T> build(List<Tree<T>> nodes) {
+        List<Tree<T>> topNodes = buildTopNodes(nodes);
 
         Tree<T> root = new Tree<>();
         root.setId("0");
@@ -91,8 +98,9 @@ public class TreeUtil {
             for (VueRouter<T> parent : routes) {
                 String id = parent.getId();
                 if (id != null && id.equals(parentId)) {
-                    if (parent.getChildren() == null)
+                    if (parent.getChildren() == null) {
                         parent.initChildren();
+                    }
                     parent.getChildren().add(route);
                     parent.setHasChildren(true);
                     route.setHasParent(true);

@@ -5,6 +5,8 @@ import cc.mrbird.febs.system.domain.App;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * @author wangjf
  * @date 2020/2/1 0001.
@@ -15,4 +17,5 @@ public interface AppService extends IService<App> {
 
     App findAppById(String id) throws Exception;
 
+    Map<String, Object> findMenusByAppId(Long appId);
 }

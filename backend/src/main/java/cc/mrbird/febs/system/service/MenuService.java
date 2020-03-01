@@ -1,5 +1,6 @@
 package cc.mrbird.febs.system.service;
 
+import cc.mrbird.febs.common.domain.Tree;
 import cc.mrbird.febs.system.domain.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -26,5 +27,7 @@ public interface MenuService extends IService<Menu> {
      * @param menuIds menuIds
      */
     void deleteMeuns(String[] menuIds) throws Exception;
+
+    void buildTrees(List<Tree<Menu>> trees, List<Menu> menus, List<String> ids);
 
 }

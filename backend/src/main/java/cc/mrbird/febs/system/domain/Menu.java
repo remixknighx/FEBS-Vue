@@ -52,7 +52,7 @@ public class Menu implements Serializable {
     private String icon;
 
     @NotBlank(message = "{required}")
-    @ExcelField(value = "类型", writeConverterExp = "0=按钮,1=菜单")
+    @ExcelField(value = "类型", writeConverterExp = "0=菜单 1=按钮")
     private String type;
 
     private Integer orderNum;

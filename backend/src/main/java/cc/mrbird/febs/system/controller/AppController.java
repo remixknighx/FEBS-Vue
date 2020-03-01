@@ -77,4 +77,9 @@ public class AppController extends BaseController {
         }
     }
 
+    @GetMapping("/{appId}")
+    public Map<String, Object> menuList(@PathVariable(value = "appId")Long appId) {
+        return appService.findMenusByAppId(appId);
+    }
+
 }
