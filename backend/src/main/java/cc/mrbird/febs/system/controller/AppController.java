@@ -1,6 +1,7 @@
 package cc.mrbird.febs.system.controller;
 
 import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.authentication.JWTUtil;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
@@ -42,6 +43,7 @@ public class AppController extends BaseController {
     @PostMapping
     public void addApp(App app) throws FebsException {
         try {
+            app.setCreateUser(JWTUtil.getUserName());
             app.setCreateTime(new Date());
             appMapper.insert(app);
         } catch (Exception e) {
@@ -55,6 +57,7 @@ public class AppController extends BaseController {
     @PutMapping
     public void editApp(App app) throws FebsException {
         try {
+            app.setModifyUser(JWTUtil.getUserName());
             app.setModifyTime(new Date());
             appMapper.updateById(app);
         } catch (Exception e) {

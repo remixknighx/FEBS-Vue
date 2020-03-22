@@ -27,6 +27,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private MenuMapper menuMapper;
 
     @Override
     public List<Menu> findUserPermissions(String username) {
@@ -79,8 +81,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public void createMenu(Menu menu) {
         menu.setCreateTime(new Date());
+        int orderNum = menuMapper.selectMaxOrderNum(menu.getParentId());
+        menu.setOrderNum(orderNum);
         setMenu(menu);
-        this.save(menu);
+        menuMapper.insertMenu(menu);
     }
 
     @Override
@@ -145,6 +149,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         }
         if (StringUtils.isNotBlank(menu.getType())) {
             queryWrapper.eq(Menu::getType, menu.getType());
+        }
+        if (menu.getAppId() != null) {
+            queryWrapper.eq(Menu::getAppId, menu.getAppId());
         }
         if (StringUtils.isNotBlank(menu.getCreateTimeFrom()) && StringUtils.isNotBlank(menu.getCreateTimeTo())) {
             queryWrapper

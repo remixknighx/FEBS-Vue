@@ -63,7 +63,8 @@ export default {
   props: {
     buttonAddVisiable: {
       default: false
-    }
+    },
+    appId: null
   },
   data () {
     return {
@@ -115,6 +116,7 @@ export default {
         if (!err) {
           this.setButtonFields()
           this.loading = true
+          this.button.appId = this.appId
           if (checkedArr.length) {
             this.button.parentId = checkedArr[0]
           } else {

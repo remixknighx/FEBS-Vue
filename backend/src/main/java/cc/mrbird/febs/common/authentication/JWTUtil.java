@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 
 import java.util.Date;
 
@@ -16,6 +17,15 @@ import java.util.Date;
 public class JWTUtil {
 
     private static final long EXPIRE_TIME = SpringContextUtil.getBean(FebsProperties.class).getShiro().getJwtTimeOut() * 1000;
+
+    public static String getUserName() {
+        String token = (String) SecurityUtils.getSubject().getPrincipal();
+        String username = "";
+        if (StringUtils.isNotBlank(token)) {
+            username = JWTUtil.getUsername(token);
+        }
+        return username;
+    }
 
     /**
      * 校验 token是否正确

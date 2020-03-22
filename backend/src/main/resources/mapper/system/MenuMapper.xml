@@ -18,6 +18,24 @@
         <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
     </resultMap>
 
+    <select id="selectMaxOrderNum" resultType="Integer" parameterType="Long">
+        select max(order_num)+1 from t_menu where parent_id=#{parentId, jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertMenu" parameterType="cc.mrbird.febs.system.domain.Menu">
+        INSERT INTO t_menu (
+         menu_name, type, parent_id, create_time, create_user, app_id, order_num
+        ) VALUES (
+          #{menuName, jdbcType=VARCHAR},
+          #{type, jdbcType=VARCHAR},
+          #{parentId, jdbcType=BIGINT},
+          now(),
+          #{createUser, jdbcType=VARCHAR},
+          #{appId, jdbcType=BIGINT},
+          #{orderNum, jdbcType=BIGINT}
+        )
+    </insert>
+
     <select id="findUserPermissions" resultMap="menu">
         select distinct m.perms
         from t_role r

@@ -9,6 +9,10 @@ import java.util.List;
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    int selectMaxOrderNum(Long parentId);
+
+    int insertMenu(Menu menu);
+
     List<Menu> findUserPermissions(String userName);
 
     List<Menu> findUserMenus(String userName);

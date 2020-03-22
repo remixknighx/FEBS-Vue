@@ -1,6 +1,7 @@
 package cc.mrbird.febs.system.controller;
 
 import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.authentication.JWTUtil;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,6 +71,8 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:add")
     public void addUser(@Valid User user) throws FebsException {
         try {
+            user.setCreateUser(JWTUtil.getUserName());
+            user.setCreateTime(new Date());
             this.userService.createUser(user);
         } catch (Exception e) {
             message = "新增用户失败";
@@ -82,6 +86,8 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:update")
     public void updateUser(@Valid User user) throws FebsException {
         try {
+            user.setModifyUser(JWTUtil.getUserName());
+            user.setModifyTime(new Date());
             this.userService.updateUser(user);
         } catch (Exception e) {
             message = "修改用户失败";

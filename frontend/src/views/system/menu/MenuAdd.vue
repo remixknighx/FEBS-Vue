@@ -96,7 +96,8 @@ export default {
   props: {
     menuAddVisiable: {
       default: false
-    }
+    },
+    appId: null
   },
   data () {
     return {
@@ -160,6 +161,7 @@ export default {
         if (!err) {
           this.setMenuFields()
           this.loading = true
+          this.menu.appId = this.appId
           if (checkedArr.length) {
             this.menu.parentId = checkedArr[0]
           } else {

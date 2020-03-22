@@ -1,6 +1,7 @@
 package cc.mrbird.febs.system.controller;
 
 import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.authentication.JWTUtil;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,6 +61,8 @@ public class RoleController extends BaseController {
     @RequiresPermissions("role:add")
     public void addRole(@Valid Role role) throws FebsException {
         try {
+            role.setCreateUser(JWTUtil.getUserName());
+            role.setCreateTime(new Date());
             this.roleService.createRole(role);
         } catch (Exception e) {
             message = "新增角色失败";
@@ -86,6 +90,8 @@ public class RoleController extends BaseController {
     @RequiresPermissions("role:update")
     public void updateRole(Role role) throws FebsException {
         try {
+            role.setModifyUser(JWTUtil.getUserName());
+            role.setModifyTime(new Date());
             this.roleService.updateRole(role);
         } catch (Exception e) {
             message = "修改角色失败";

@@ -1,6 +1,7 @@
 package cc.mrbird.febs.system.controller;
 
 import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.authentication.JWTUtil;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +53,8 @@ public class MenuController extends BaseController {
     @RequiresPermissions("menu:add")
     public void addMenu(@Valid Menu menu) throws FebsException {
         try {
+            String userName = JWTUtil.getUserName();
+            menu.setCreateUser(userName);
             this.menuService.createMenu(menu);
         } catch (Exception e) {
             message = "新增菜单/按钮失败";
@@ -78,6 +82,8 @@ public class MenuController extends BaseController {
     @RequiresPermissions("menu:update")
     public void updateMenu(@Valid Menu menu) throws FebsException {
         try {
+            menu.setModifyUser(JWTUtil.getUserName());
+            menu.setModifyTime(new Date());
             this.menuService.updateMenu(menu);
         } catch (Exception e) {
             message = "修改菜单/按钮失败";
