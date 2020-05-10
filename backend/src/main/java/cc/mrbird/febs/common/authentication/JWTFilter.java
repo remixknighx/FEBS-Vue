@@ -6,7 +6,6 @@ import cc.mrbird.febs.common.utils.SpringContextUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpStatus;
@@ -28,17 +27,20 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         FebsProperties febsProperties = SpringContextUtil.getBean(FebsProperties.class);
         String[] anonUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(febsProperties.getShiro().getAnonUrl(), StringPool.COMMA);
 
         boolean match = false;
         for (String u : anonUrl) {
-            if (pathMatcher.match(u, httpServletRequest.getRequestURI()))
+            if (pathMatcher.match(u, httpServletRequest.getRequestURI())) {
                 match = true;
+            }
         }
-        if (match) return true;
+        if (match) {
+            return true;
+        }
         if (isLoginAttempt(request, response)) {
             return executeLogin(request, response);
         }

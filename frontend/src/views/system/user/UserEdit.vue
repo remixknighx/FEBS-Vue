@@ -37,7 +37,7 @@
             'roleId',
             {rules: [{ required: true, message: '请选择角色' }]}
           ]">
-          <a-select-option v-for="r in roleData" :key="r.roleId.toString()">{{r.roleName}}</a-select-option>
+          <a-select-option v-for="r in roleData" :key="r.id.toString()">{{r.roleName}}</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label='部门' v-bind="formItemLayout">
@@ -119,7 +119,7 @@ export default {
       this.$emit('close')
     },
     setFormValues ({...user}) {
-      this.userId = user.userId
+      this.userId = user.id
       let fields = ['username', 'email', 'status', 'ssex', 'mobile']
       Object.keys(user).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
@@ -147,7 +147,7 @@ export default {
           this.loading = true
           let user = this.form.getFieldsValue()
           user.roleId = user.roleId.join(',')
-          user.userId = this.userId
+          user.id = this.userId
           user.deptId = this.userDept
           this.$put('user', {
             ...user

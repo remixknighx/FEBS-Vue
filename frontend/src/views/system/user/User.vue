@@ -281,7 +281,7 @@ export default {
         onOk () {
           let userIds = []
           let selectedRowKeysStr = ',' + that.selectedRowKeys.join(',') + ','
-          userIds.push(that.dataSource.filter(f => { return selectedRowKeysStr.indexOf(',' + f.userId + ',') > -1 }).map(m => { return m.userId }))
+          userIds.push(that.dataSource.filter(f => { return selectedRowKeysStr.indexOf(',' + f.id + ',') > -1 }).map(m => { return m.id }))
           that.$delete('user/' + userIds.join(',')).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
